@@ -1,0 +1,24 @@
+{
+  "description": "Test functions for JSO-compliant solvers",
+  "title": "SolverTest.jl",
+  "upload_type": "software",
+  "license": "MPL-2.0",
+  "creators": [
+    {
+      "affiliation": "Federal University of Paraná - UFPR",
+      "name": "Abel Soares Siqueira"
+    },
+    {
+      "affiliation": "École Polytechnique/GERAD - Montréal",
+      "name": "Dominique Orban"
+    }
+  ],
+  "access_right": "open",
+  "related_identifiers": [
+    {
+      "scheme": "url",
+      "identifier": "https://github.com/JuliaSmoothOptimizers/SolverTest.jl/releases/latest",
+      "relation": "isSupplementTo"
+    }
+  ]
+}
