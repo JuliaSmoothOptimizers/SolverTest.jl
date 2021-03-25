@@ -19,5 +19,9 @@ include("dummy-solver.jl")
     for ptype in [:unc, :bnd, :equ, :ineq, :eqnbnd, :gen]
       multiprecision_nlp(dummy, ptype)
     end
+
+    for ptype in [:unc, :bnd, :equ, :ineq, :eqnbnd, :gen]
+      multiprecision_nls(dummy, ptype)
+    end
   end
 end
