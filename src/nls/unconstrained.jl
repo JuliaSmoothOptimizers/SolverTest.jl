@@ -1,5 +1,10 @@
 export unconstrained_nls
 
+"""
+    unconstrained_nls(solver)
+
+Test the `solver` on unconstrained nonlinear least-squares problems.
+"""
 function unconstrained_nls(solver)
   n = 30
   D = Diagonal([0.1 + 0.9 * (i - 1) / (n - 1) for i = 1:n])

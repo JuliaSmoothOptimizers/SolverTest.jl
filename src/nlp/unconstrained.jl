@@ -1,5 +1,10 @@
 export unconstrained_nlp
 
+"""
+    unconstrained_nlp(solver)
+
+Test the `solver` on unconstrained problems.
+"""
 function unconstrained_nlp(solver)
   n = 30
   D = Diagonal([0.1 + 0.9 * (i - 1) / (n - 1) for i = 1:n])
