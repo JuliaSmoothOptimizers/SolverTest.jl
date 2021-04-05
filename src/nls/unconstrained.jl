@@ -1,15 +1,10 @@
 export unconstrained_nls
 
-"""
-    unconstrained_nls(solver)
-
-Test the `solver` on unconstrained nonlinear least-squares problems.
-"""
-function unconstrained_nls(solver)
+function unconstrained_nls_set()
   n = 30
   D = Diagonal([0.1 + 0.9 * (i - 1) / (n - 1) for i = 1:n])
   A = spdiagm(0 => 2 * ones(n), -1 => -ones(n-1), -1 => -ones(n-1))
-  @testset "Problem $(nls.meta.name)" for nls in [
+  return [
     ADNLSModel(
       x -> [x[1] - 1; 2x[2] - 2],
       zeros(2),
@@ -47,12 +42,23 @@ function unconstrained_nls(solver)
       name = "Extended Rosenbrock"
     ),
   ]
+end
+
+"""
+    unconstrained_nls(solver; problem_set = unconstrained_nls_set(), atol = 1e-6, rtol = 1e-6)
+
+Test the `solver` on unconstrained nonlinear least-squares problems.
+If `rtol` is non-zero, the relative error uses the gradient at the initial guess.
+"""
+function unconstrained_nls(solver; problem_set = unconstrained_nls_set(), atol = 1e-6, rtol = 1e-6)
+  
+  @testset "Problem $(nls.meta.name)" for nls in problem_set
     stats = with_logger(NullLogger()) do
       solver(nls)
     end
-    ng0 = norm(grad(nls, nls.meta.x0))
-    @test isapprox(stats.solution, ones(nls.meta.nvar), atol=1e-6 * (ng0 + 1))
-    @test stats.dual_feas < 1e-6 * (ng0 + 1)
+    ng0 = rtol != 0 ? norm(grad(nls, nls.meta.x0)) : 0
+    @test isapprox(stats.solution, ones(nls.meta.nvar), atol = atol + rtol * ng0)
+    @test stats.dual_feas < atol + rtol * ng0
     @test stats.status == :first_order
   end
 end
