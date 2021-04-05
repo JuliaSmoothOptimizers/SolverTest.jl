@@ -1,6 +1,6 @@
 export unconstrained_nlp
 
-function unconstrained_set()
+function unconstrained_nlp_set()
   n = 30
   D = Diagonal([0.1 + 0.9 * (i - 1) / (n - 1) for i = 1:n])
   A = spdiagm(0 => 2 * ones(n), -1 => -ones(n-1), -1 => -ones(n-1))
@@ -39,7 +39,7 @@ end
 Test the `solver` on unconstrained problems.
 If `rtol` is non-zero, the relative error uses the gradient at the initial guess.
 """
-function unconstrained_nlp(solver; problem_set = unconstrained_set(), atol = 1e-6, rtol = 1e-6)
+function unconstrained_nlp(solver; problem_set = unconstrained_nlp_set(), atol = 1e-6, rtol = 1e-6)
   @testset "Problem $(nlp.meta.name)" for nlp in problem_set
     stats = with_logger(NullLogger()) do
       solver(nlp)
