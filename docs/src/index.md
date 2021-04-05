@@ -8,8 +8,10 @@ The following functions are available:
 ```@docs
 unconstrained_nlp
 bound_constrained_nlp
+equality_constrained_nlp
 unconstrained_nls
 bound_constrained_nls
+equality_constrained_nls
 multiprecision_nlp
 multiprecision_nls
 ```

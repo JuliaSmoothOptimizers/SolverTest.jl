@@ -9,8 +9,10 @@ include("dummy-solver.jl")
   @testset "$foo" for foo in [
     unconstrained_nlp,
     bound_constrained_nlp,
+    equality_constrained_nlp,
     unconstrained_nls,
     bound_constrained_nls,
+    equality_constrained_nls,
   ]
     foo(dummy)
   end
