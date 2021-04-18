@@ -1,16 +1,44 @@
-function dummy(
+mutable struct DummySolver{T, S} <: AbstractOptSolver{T, S}
+  initialized::Bool
+  params::Dict
+  workspace
+end
+
+function DummySolver(
+  meta::AbstractNLPModelMeta;
+  x0::S = meta.x0,
+  kwargs...,
+) where {S}
+  T = eltype(x0)
+  nvar, ncon = meta.nvar, meta.ncon
+  solver = DummySolver{T, S}(
+    true,
+    Dict{Symbol,Any}(),
+    ( # workspace
+      x = S(undef, nvar),
+    ),
+  )
+  for (k, v) in kwargs
+    solver.params[k] = v
+  end
+  solver
+end
+
+function SolverCore.solve!(
+  solver :: DummySolver{T, S},
   nlp :: AbstractNLPModel;
-  x = copy(nlp.meta.x0),
+  x0::S = nlp.meta.x0,
   atol = 1e-6,
   rtol = 1e-6,
   max_time = 30.0,
   max_eval = 10000,
-  max_iter = 1000
-)
+  max_iter = 1000,
+  kwargs...
+) where {T, S}
 
-  T = eltype(x)
   status = :unknown
   ℓ, u = T.(nlp.meta.lvar), T.(nlp.meta.uvar)
+  x = solver.workspace.x .= x0
   x .= clamp.(x, ℓ, u)
   ℓidx, uidx = findall(ℓ .> -Inf), findall(u .< Inf)
   n, m = nlp.meta.nvar, nlp.meta.ncon
@@ -87,14 +115,14 @@ function dummy(
     end
   end
 
-  return GenericExecutionStats(
+  return OptSolverOutput(
     status,
+    x,
     nlp,
-    solution = x,
     objective = obj(nlp, x),
     dual_feas = dual,
     primal_feas = primal,
     elapsed_time = Δt,
-    iter = iter
+    iter = iter,
   )
 end

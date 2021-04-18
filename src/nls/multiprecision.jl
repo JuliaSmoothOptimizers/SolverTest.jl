@@ -12,7 +12,7 @@ The `problem_type` can be
 - :eqnbnd
 - :gen
 """
-function multiprecision_nls(solver, ptype)
+function multiprecision_nls(Solver, ptype)
   F(x) = [x[1] - 1; 2 * (x[2] - x[1]^2)]
   c(x) = [x[1]^2 + x[2]^2]
   c2(x) = [c(x); x[2] - x[1]^2 / 10]
@@ -38,8 +38,9 @@ function multiprecision_nls(solver, ptype)
 
     ng0 = norm(grad(nls, nls.meta.x0))
 
+    solver = Solver(nls)
     stats = with_logger(NullLogger()) do
-      solver(nls, atol=ϵ, rtol=ϵ)
+      solve!(solver, nls, atol=ϵ, rtol=ϵ)
     end
     @test eltype(stats.solution) == T
     @test stats.objective isa T

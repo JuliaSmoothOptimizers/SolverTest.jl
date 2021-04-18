@@ -50,11 +50,12 @@ end
 Test the `solver` on unconstrained nonlinear least-squares problems.
 If `rtol` is non-zero, the relative error uses the gradient at the initial guess.
 """
-function unconstrained_nls(solver; problem_set = unconstrained_nls_set(), atol = 1e-6, rtol = 1e-6)
-  
+function unconstrained_nls(Solver; problem_set = unconstrained_nls_set(), atol = 1e-6, rtol = 1e-6)
+
   @testset "Problem $(nls.meta.name)" for nls in problem_set
+    solver = Solver(nls.meta)
     stats = with_logger(NullLogger()) do
-      solver(nls)
+      SolverCore.solve!(solver, nls)
     end
     ng0 = rtol != 0 ? norm(grad(nls, nls.meta.x0)) : 0
     @test isapprox(stats.solution, ones(nls.meta.nvar), atol = atol + rtol * ng0)
