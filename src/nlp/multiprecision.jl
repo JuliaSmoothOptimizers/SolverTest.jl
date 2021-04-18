@@ -12,7 +12,7 @@ The `problem_type` can be
 - :eqnbnd
 - :gen
 """
-function multiprecision_nlp(solver, ptype)
+function multiprecision_nlp(Solver, ptype)
   f(x) = (x[1] - 1)^2 + 4 * (x[2] - x[1]^2)^2
   c(x) = [x[1]^2 + x[2]^2]
   c2(x) = [c(x); x[2] - x[1]^2 / 10]
@@ -38,8 +38,9 @@ function multiprecision_nlp(solver, ptype)
 
     ng0 = norm(grad(nlp, nlp.meta.x0))
 
+    solver = Solver(nlp.meta)
     stats = with_logger(NullLogger()) do
-      solver(nlp, atol=ϵ, rtol=ϵ)
+      solve!(solver, nlp, atol=ϵ, rtol=ϵ)
     end
     @test eltype(stats.solution) == T
     @test stats.objective isa T

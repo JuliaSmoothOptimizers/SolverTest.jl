@@ -56,10 +56,11 @@ end
 Test the `solver` on bound-constrained problems.
 If `rtol` is non-zero, the relative error uses the gradient at the initial guess.
 """
-function bound_constrained_nlp(solver; problem_set = bound_constrained_nlp_set(), atol = 1e-6, rtol = 1e-6)
+function bound_constrained_nlp(Solver; problem_set = bound_constrained_nlp_set(), atol = 1e-6, rtol = 1e-6)
   @testset "Problem $(nlp.meta.name)" for nlp in problem_set
+    solver = Solver(nlp.meta)
     stats = with_logger(NullLogger()) do
-      solver(nlp)
+      SolverCore.solve!(solver, nlp)
     end
     ng0 = rtol != 0 ? norm(grad(nlp, nlp.meta.x0)) : 0
     @test isapprox(stats.solution, ones(nlp.meta.nvar), atol = atol + rtol * ng0)

@@ -1,7 +1,7 @@
 # stdlib
 using LinearAlgebra, Test
 # JSO
-using NLPModels, SolverTest, SolverTools
+using NLPModels, OptSolver, SolverCore, SolverTest, SolverTools
 
 include("dummy-solver.jl")
 
@@ -14,16 +14,17 @@ include("dummy-solver.jl")
     bound_constrained_nls,
     equality_constrained_nls,
   ]
-    foo(dummy)
+    foo(DummySolver)
   end
+
 
   @testset "Multiprecision tests" begin
     for ptype in [:unc, :bnd, :equ, :ineq, :eqnbnd, :gen]
-      multiprecision_nlp(dummy, ptype)
+      multiprecision_nlp(DummySolver, ptype)
     end
 
     for ptype in [:unc, :bnd, :equ, :ineq, :eqnbnd, :gen]
-      multiprecision_nls(dummy, ptype)
+      multiprecision_nls(DummySolver, ptype)
     end
   end
 end

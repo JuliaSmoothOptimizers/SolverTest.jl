@@ -3,14 +3,14 @@ export equality_constrained_nls
 function equality_constrained_nls_set()
   n = 10
   return [
-    ADNLSModel(x -> [x[1] - 1], 
+    ADNLSModel(x -> [x[1] - 1],
                [-1.2; 1.0], 1,
-               x -> [10 * (x[2] - x[1]^2)], 
-               zeros(1), zeros(1), 
+               x -> [10 * (x[2] - x[1]^2)],
+               zeros(1), zeros(1),
                name = "HS6"),
-    ADNLSModel(x -> [x[1] - 1 ; 10 * (x[2] - x[1]^2)], 
+    ADNLSModel(x -> [x[1] - 1 ; 10 * (x[2] - x[1]^2)],
                [-1.2; 1.0], 2,
-               x -> [(x[1] - 2)^2 + (x[2] - 2)^2 - 2], 
+               x -> [(x[1] - 2)^2 + (x[2] - 2)^2 - 2],
                zeros(1), zeros(1),
                name = "Rosenbrock with (x₁-2)²+(x₂-2)²=2"),
     ADNLSModel(x -> [x[1] - 1 ; 10 * (x[2] - x[1]^2)],
@@ -49,10 +49,11 @@ end
 Test the `solver` on equality-constrained problems.
 If `rtol` is non-zero, the relative error uses the gradient at the initial guess.
 """
-function equality_constrained_nls(solver; problem_set = equality_constrained_nls_set(), atol = 1e-6, rtol = 1e-6)
+function equality_constrained_nls(Solver; problem_set = equality_constrained_nls_set(), atol = 1e-6, rtol = 1e-6)
   @testset "Problem $(nls.meta.name)" for nls in problem_set
+    solver = Solver(nls.meta)
     stats = with_logger(NullLogger()) do
-      solver(nls)
+      SolverCore.solve!(solver, nls)
     end
     ng0 = rtol != 0 ? norm(grad(nls, nls.meta.x0)) : 0
     @test isapprox(stats.solution, ones(nls.meta.nvar), atol = atol + rtol * ng0)

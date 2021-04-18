@@ -3,7 +3,7 @@ module SolverTest
 # stdlib
 using LinearAlgebra, Logging, SparseArrays, Test
 # JSO
-using ADNLPModels, NLPModels
+using ADNLPModels, NLPModels, OptSolver, SolverCore
 
 include("nlp/unconstrained.jl")
 include("nlp/bound-constrained.jl")

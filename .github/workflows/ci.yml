@@ -46,6 +46,8 @@ jobs:
             ${{ runner.os }}-test-${{ env.cache-name }}-
             ${{ runner.os }}-test-
             ${{ runner.os }}-
+      - name: Clone SolverCore/revamp and OptSolver
+        run: julia -e 'using Pkg; pkg"activate ."; pkg"add SolverCore#revamp"; pkg"add https://github.com/JuliaSmoothOptimizers/OptSolver.jl#main"'
       - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-runtest@v1
       - uses: julia-actions/julia-processcoverage@v1
