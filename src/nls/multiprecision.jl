@@ -24,13 +24,13 @@ function multiprecision_nls(solver, ptype)
     elseif ptype == :bnd
       ADNLSModel(F, x0, 2, ℓ, u)
     elseif ptype == :equ
-      ADNLSModel(F, x0, 2, c, [2.0], [2.0])
+      ADNLSModel(F, x0, 2, c, T[2.0], T[2.0])
     elseif ptype == :ineq
-      ADNLSModel(F, x0, 2, c, [-1.0], [1.0])
+      ADNLSModel(F, x0, 2, c, T[-1.0], T[1.0])
     elseif ptype == :eqnbnd
-      ADNLSModel(F, x0, 2, ℓ, u, c, [2.0], [2.0])
+      ADNLSModel(F, x0, 2, ℓ, u, c, T[2.0], T[2.0])
     elseif ptype == :gen
-      ADNLSModel(F, x0, 2, ℓ, u, c2, [2.0; 0.0], [2.0; Inf])
+      ADNLSModel(F, x0, 2, ℓ, u, c2, T[2.0; 0.0], T[2.0; Inf])
     else
       error("Unexpected ptype $ptype")
     end
