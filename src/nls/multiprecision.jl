@@ -34,18 +34,18 @@ function multiprecision_nls(solver, ptype)
     else
       error("Unexpected ptype $ptype")
     end
-    ϵ = eps(T)^T(1/4)
+    ϵ = eps(T)^T(1 / 4)
 
     ng0 = norm(grad(nls, nls.meta.x0))
 
     stats = with_logger(NullLogger()) do
-      solver(nls, atol=ϵ, rtol=ϵ)
+      solver(nls, atol = ϵ, rtol = ϵ)
     end
     @test eltype(stats.solution) == T
     @test stats.objective isa T
     @test stats.dual_feas isa T
     @test stats.primal_feas isa T
-    @test isapprox(stats.solution, ones(T, 2), atol=ϵ * ng0 * 10)
+    @test isapprox(stats.solution, ones(T, 2), atol = ϵ * ng0 * 10)
     @test stats.dual_feas < ϵ * ng0 + ϵ
   end
 end

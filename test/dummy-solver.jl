@@ -1,13 +1,12 @@
 function dummy(
-  nlp :: AbstractNLPModel;
+  nlp::AbstractNLPModel;
   x = copy(nlp.meta.x0),
   atol = 1e-6,
   rtol = 1e-6,
   max_time = 30.0,
   max_eval = 10000,
-  max_iter = 1000
+  max_iter = 1000,
 )
-
   T = eltype(x)
   status = :unknown
   ℓ, u = T.(nlp.meta.lvar), T.(nlp.meta.uvar)
@@ -49,7 +48,7 @@ function dummy(
 
   dual = norm(grad(nlp, x) + J(x)' * y - zℓ + zu)
   primal = norm(c(x))
-  compl = max( norm((x[ℓidx] - ℓ[ℓidx]) .* zℓ[ℓidx]), norm((x[uidx] - u[uidx]) .* zu[uidx]))
+  compl = max(norm((x[ℓidx] - ℓ[ℓidx]) .* zℓ[ℓidx]), norm((x[uidx] - u[uidx]) .* zu[uidx]))
 
   @info("", x, y, zℓ, zu, dual)
 
@@ -66,7 +65,7 @@ function dummy(
     y, zℓ, zu = yzls(x)
     dual = norm(grad(nlp, x) + J(x)' * y - zℓ + zu)
     primal = norm(c(x))
-    compl = max( norm((x[ℓidx] - ℓ[ℓidx]) .* zℓ[ℓidx]), norm((x[uidx] - u[uidx]) .* zu[uidx]))
+    compl = max(norm((x[ℓidx] - ℓ[ℓidx]) .* zℓ[ℓidx]), norm((x[uidx] - u[uidx]) .* zu[uidx]))
     @info("", x, y, zℓ, zu, dual)
 
     iter += 1
@@ -95,6 +94,6 @@ function dummy(
     dual_feas = dual,
     primal_feas = primal,
     elapsed_time = Δt,
-    iter = iter
+    iter = iter,
   )
 end
