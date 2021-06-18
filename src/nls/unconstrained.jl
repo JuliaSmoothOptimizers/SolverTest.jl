@@ -37,7 +37,7 @@ function unconstrained_nls_set()
     ),
     ADNLSModel(
       x -> [[10 * (x[i+1] - x[i]^2) for i = 1:n-1]; [x[i] - 1 for i = 1:n-1]],
-      (1:n) ./ (n + 1),
+      collect(1:n) ./ (n + 1),
       2n - 2,
       name = "Extended Rosenbrock"
     ),
@@ -51,7 +51,7 @@ Test the `solver` on unconstrained nonlinear least-squares problems.
 If `rtol` is non-zero, the relative error uses the gradient at the initial guess.
 """
 function unconstrained_nls(solver; problem_set = unconstrained_nls_set(), atol = 1e-6, rtol = 1e-6)
-  
+
   @testset "Problem $(nls.meta.name)" for nls in problem_set
     stats = with_logger(NullLogger()) do
       solver(nls)

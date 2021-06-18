@@ -24,13 +24,13 @@ function multiprecision_nlp(solver, ptype)
     elseif ptype == :bnd
       ADNLPModel(f, x0, ℓ, u)
     elseif ptype == :equ
-      ADNLPModel(f, x0, c, [2.0], [2.0])
+      ADNLPModel(f, x0, c, T[2.0], T[2.0])
     elseif ptype == :ineq
-      ADNLPModel(f, x0, c, [-1.0], [1.0])
+      ADNLPModel(f, x0, c, T[-1.0], T[1.0])
     elseif ptype == :eqnbnd
-      ADNLPModel(f, x0, ℓ, u, c, [2.0], [2.0])
+      ADNLPModel(f, x0, ℓ, u, c, T[2.0], T[2.0])
     elseif ptype == :gen
-      ADNLPModel(f, x0, ℓ, u, c2, [2.0; 0.0], [2.0; Inf])
+      ADNLPModel(f, x0, ℓ, u, c2, T[2.0; 0.0], T[2.0; Inf])
     else
       error("Unexpected ptype $ptype")
     end

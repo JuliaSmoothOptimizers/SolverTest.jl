@@ -1,7 +1,7 @@
 # stdlib
 using LinearAlgebra, Test
 # JSO
-using NLPModels, SolverTest, SolverTools
+using NLPModels, SolverCore, SolverTest
 
 include("dummy-solver.jl")
 

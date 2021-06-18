@@ -27,7 +27,7 @@ function unconstrained_nlp_set()
     ),
     ADNLPModel(
       x -> sum(100 * (x[i+1] - x[i]^2)^2 + (x[i] - 1)^2 for i = 1:n-1),
-      (1:n) ./ (n + 1),
+      collect(1:n) ./ (n + 1),
       name = "Extended Rosenbrock"
     ),
   ]
