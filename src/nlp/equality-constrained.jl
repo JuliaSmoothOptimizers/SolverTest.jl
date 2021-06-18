@@ -3,36 +3,57 @@ export equality_constrained_nlp
 function equality_constrained_nlp_set()
   n = 30
   return [
-    ADNLPModel(x -> 2x[1]^2 + x[1] * x[2] + x[2]^2 - 9x[1] - 9x[2] + 14, 
-               [1.0; 2.0], 
-               x -> [4x[1] + 6x[2] - 10], 
-               zeros(1), zeros(1),
-               name = "Simple quadratic problem"),
-    ADNLPModel(x -> (x[1] - 1)^2, 
-               [-1.2; 1.0], 
-               x -> [10 * (x[2] - x[1]^2)], 
-               zeros(1), zeros(1), 
-               name = "HS6"),
-    ADNLPModel(x -> (x[1] - 1)^2 + 100 * (x[2] - x[1]^2)^2, 
-               [-1.2; 1.0], 
-               x -> [(x[1] - 2)^2 + (x[2] - 2)^2 - 2], 
-               zeros(1), zeros(1),
-               name = "Rosenbrock with (x₁-2)²+(x₂-2)²=2"),
-    ADNLPModel(x -> -x[1] + 1, 
-               [0.5; 1/3], 
-               x -> [16x[1]^2 + 9x[2]^2 - 25; 
-                     4x[1] * 3x[2] - 12], 
-               zeros(2), zeros(2),
-               name = "scaled HS8"),
-    ADNLPModel(x -> dot(x, x) - n, 
-               zeros(n),
-               x -> [sum(x) - n], 
-               zeros(1), zeros(1),
-               name = "‖x‖² s.t. ∑x = n"),
-    ADNLPModel(x -> (x[1] - 1.0)^2 + 100 * (x[2] - x[1]^2)^2, 
-               [-1.2; 1.0],
-               x -> [sum(x) - 2], [0.0], [0.0],
-               name = "Rosenbrock with ∑x = 2"),
+    ADNLPModel(
+      x -> 2x[1]^2 + x[1] * x[2] + x[2]^2 - 9x[1] - 9x[2] + 14,
+      [1.0; 2.0],
+      x -> [4x[1] + 6x[2] - 10],
+      zeros(1),
+      zeros(1),
+      name = "Simple quadratic problem",
+    ),
+    ADNLPModel(
+      x -> (x[1] - 1)^2,
+      [-1.2; 1.0],
+      x -> [10 * (x[2] - x[1]^2)],
+      zeros(1),
+      zeros(1),
+      name = "HS6",
+    ),
+    ADNLPModel(
+      x -> (x[1] - 1)^2 + 100 * (x[2] - x[1]^2)^2,
+      [-1.2; 1.0],
+      x -> [(x[1] - 2)^2 + (x[2] - 2)^2 - 2],
+      zeros(1),
+      zeros(1),
+      name = "Rosenbrock with (x₁-2)²+(x₂-2)²=2",
+    ),
+    ADNLPModel(
+      x -> -x[1] + 1,
+      [0.5; 1 / 3],
+      x -> [
+        16x[1]^2 + 9x[2]^2 - 25
+        4x[1] * 3x[2] - 12
+      ],
+      zeros(2),
+      zeros(2),
+      name = "scaled HS8",
+    ),
+    ADNLPModel(
+      x -> dot(x, x) - n,
+      zeros(n),
+      x -> [sum(x) - n],
+      zeros(1),
+      zeros(1),
+      name = "‖x‖² s.t. ∑x = n",
+    ),
+    ADNLPModel(
+      x -> (x[1] - 1.0)^2 + 100 * (x[2] - x[1]^2)^2,
+      [-1.2; 1.0],
+      x -> [sum(x) - 2],
+      [0.0],
+      [0.0],
+      name = "Rosenbrock with ∑x = 2",
+    ),
   ]
 end
 
@@ -42,7 +63,12 @@ end
 Test the `solver` on equality-constrained problems.
 If `rtol` is non-zero, the relative error uses the gradient at the initial guess.
 """
-function equality_constrained_nlp(solver; problem_set = equality_constrained_nlp_set(), atol = 1e-6, rtol = 1e-6)
+function equality_constrained_nlp(
+  solver;
+  problem_set = equality_constrained_nlp_set(),
+  atol = 1e-6,
+  rtol = 1e-6,
+)
   @testset "Problem $(nlp.meta.name)" for nlp in problem_set
     stats = with_logger(NullLogger()) do
       solver(nlp)
