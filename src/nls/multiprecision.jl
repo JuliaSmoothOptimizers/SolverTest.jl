@@ -46,7 +46,6 @@ function multiprecision_nls(solver, ptype)
     @test stats.dual_feas isa T
     @test stats.primal_feas isa T
     @test isapprox(stats.solution, ones(T, 2), atol = ϵ * ng0 * 10)
-    @test stats.dual_feas < ϵ * ng0 + ϵ
   end
 end
 
