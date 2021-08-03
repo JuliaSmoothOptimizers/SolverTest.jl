@@ -20,14 +20,6 @@ function equality_constrained_nlp_set()
       name = "HS6",
     ),
     ADNLPModel(
-      x -> (x[1] - 1)^2 + 100 * (x[2] - x[1]^2)^2,
-      [-1.2; 1.0],
-      x -> [(x[1] - 2)^2 + (x[2] - 2)^2 - 2],
-      zeros(1),
-      zeros(1),
-      name = "Rosenbrock with (x₁-2)²+(x₂-2)²=2",
-    ),
-    ADNLPModel(
       x -> -x[1] + 1,
       [0.5; 1 / 3],
       x -> [
