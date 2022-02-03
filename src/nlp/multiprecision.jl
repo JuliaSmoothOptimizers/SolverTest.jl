@@ -12,11 +12,11 @@ The `problem_type` can be
 - :eqnbnd
 - :gen
 """
-function multiprecision_nlp(solver, ptype)
+function multiprecision_nlp(solver, ptype; precisions = (Float16, Float32, Float64, BigFloat))
   f(x) = (x[1] - 1)^2 + 4 * (x[2] - x[1]^2)^2
   c(x) = [x[1]^2 + x[2]^2]
   c2(x) = [c(x); x[2] - x[1]^2 / 10]
-  @testset "Precision $T for ptype $ptype" for T in (Float16, Float32, Float64, BigFloat)
+  @testset "Precision $T for ptype $ptype" for T in precisions
     x0 = T[-1.2; 1.0]
     ℓ, u = zeros(T, 2), 2 * ones(T, 2)
     nlp = if ptype == :unc
