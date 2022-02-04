@@ -50,6 +50,19 @@ function equality_constrained_nlp_set()
 end
 
 """
+    eqn_solution_check(nlp, sol)
+
+Given an NLPModels `nlp` and a vector `sol`, it returns the KKT residual of an equality constrained optimization problem.
+"""
+function eqn_solution_check(nlp, sol)
+  λ = pinv(jac(nlp, sol)') * grad(nlp, sol)
+  ∇L = grad(nlp, sol) - jtprod(nlp, sol, λ)
+  cx = cons(nlp, sol)
+  feas = max.(cx - get_ucon(nlp), get_lcon(nlp) - cx, 0)
+  return norm(vcat(∇L, feas), Inf)
+end
+
+"""
     equality_constrained_nlp(solver; problem_set = equality_constrained_nlp_set(), atol = 1e-6, rtol = 1e-6)
 
 Test the `solver` on equality-constrained problems.
@@ -66,8 +79,7 @@ function equality_constrained_nlp(
       solver(nlp)
     end
     ng0 = rtol != 0 ? norm(grad(nlp, nlp.meta.x0)) : 0
-    @test isapprox(stats.solution, ones(nlp.meta.nvar), atol = atol + rtol * ng0)
-    @test isapprox(stats.objective, 0.0, atol = atol + rtol * ng0)
+    @test eqn_solution_check(nlp, stats.solution) ≤ atol + rtol * ng0
     @test stats.dual_feas < atol + rtol * ng0
     @test stats.primal_feas < atol + rtol * ng0
     @test stats.status == :first_order
