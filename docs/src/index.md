@@ -15,3 +15,9 @@ equality_constrained_nls
 multiprecision_nlp
 multiprecision_nls
 ```
+
+## Auxiliary funcions
+
+```@docs
+eqn_solution_check
+```
