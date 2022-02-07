@@ -103,9 +103,12 @@ function equality_constrained_nls(
       solver(nls)
     end
     ng0 = rtol != 0 ? norm(grad(nls, nls.meta.x0)) : 0
-    @test isapprox(stats.solution, ones(nls.meta.nvar), atol = atol + rtol * ng0)
-    @test stats.dual_feas < atol + rtol * ng0
-    @test stats.primal_feas < atol + rtol * ng0
+    ϵ = atol + rtol * ng0
+    primal, dual = kkt_checker(nls, stats.solution, feas_tol = atol, bound_tol = atol)
+    @test all(dual .< ϵ)
+    @test primal == [] || all(primal .< ϵ)
+    @test stats.dual_feas < ϵ
+    @test stats.primal_feas < ϵ
     @test stats.status == :first_order
   end
 end

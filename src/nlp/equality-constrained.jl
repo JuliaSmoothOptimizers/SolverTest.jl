@@ -79,9 +79,12 @@ function equality_constrained_nlp(
       solver(nlp)
     end
     ng0 = rtol != 0 ? norm(grad(nlp, nlp.meta.x0)) : 0
-    @test eqn_solution_check(nlp, stats.solution) ≤ atol + rtol * ng0
-    @test stats.dual_feas < atol + rtol * ng0
-    @test stats.primal_feas < atol + rtol * ng0
+    ϵ = atol + rtol * ng0
+    primal, dual = kkt_checker(nlp, stats.solution, feas_tol = atol, bound_tol = atol)
+    @test all(dual .< ϵ)
+    @test primal == [] || all(primal .< ϵ)
+    @test stats.dual_feas < ϵ
+    @test stats.primal_feas < ϵ
     @test stats.status == :first_order
   end
 end

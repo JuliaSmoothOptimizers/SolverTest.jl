@@ -29,9 +29,11 @@ function unconstrained_nlp(solver; problem_set = unconstrained_nlp_set(), atol =
       solver(nlp)
     end
     ng0 = rtol != 0 ? norm(grad(nlp, nlp.meta.x0)) : 0
-    @test isapprox(stats.solution, ones(nlp.meta.nvar), atol = atol + rtol * ng0)
-    @test isapprox(stats.objective, 0.0, atol = atol + rtol * ng0)
-    @test stats.dual_feas < atol + rtol * ng0
+    ϵ = atol + rtol * ng0
+    primal, dual = kkt_checker(nlp, stats.solution, feas_tol = atol, bound_tol = atol)
+    @test all(dual .< ϵ)
+    @test primal == [] || all(primal .< ϵ)
+    @test stats.dual_feas < ϵ
     @test stats.status == :first_order
   end
 end

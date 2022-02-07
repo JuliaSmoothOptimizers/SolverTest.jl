@@ -20,4 +20,5 @@ multiprecision_nls
 
 ```@docs
 SolverTest.eqn_solution_check
+SolverTest.kkt_checker
 ```
