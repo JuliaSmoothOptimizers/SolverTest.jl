@@ -26,7 +26,7 @@ function multiprecision_nlp(solver, ptype; precisions = (Float16, Float32, Float
     elseif ptype == :equ
       ADNLPModel(f, x0, c, T[2.0], T[2.0])
     elseif ptype == :ineq
-      ADNLPModel(f, x0, c, T[-1.0], T[1.0])
+      ADNLPModel(f, x0, c, T[0.0], T[2.0])
     elseif ptype == :eqnbnd
       ADNLPModel(f, x0, ℓ, u, c, T[2.0], T[2.0])
     elseif ptype == :gen
