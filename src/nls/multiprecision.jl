@@ -26,7 +26,7 @@ function multiprecision_nls(solver, ptype; precisions = (Float16, Float32, Float
     elseif ptype == :equ
       ADNLSModel(F, x0, 2, c, T[2.0], T[2.0])
     elseif ptype == :ineq
-      ADNLSModel(F, x0, 2, c, T[-1.0], T[1.0])
+      ADNLSModel(F, x0, 2, c, T[0.0], T[2.0])
     elseif ptype == :eqnbnd
       ADNLSModel(F, x0, 2, ℓ, u, c, T[2.0], T[2.0])
     elseif ptype == :gen
