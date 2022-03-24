@@ -75,9 +75,9 @@ function bound_constrained_nls(
     end
     ng0 = rtol != 0 ? norm(grad(nls, nls.meta.x0)) : 0
     ϵ = atol + rtol * ng0
-    primal, dual = kkt_checker(nls, stats.solution, feas_tol = atol, bound_tol = atol)
+    primal, dual = kkt_checker(nls, stats.solution, iconf = InputConfig(presolve = false))
     @test all(dual .< ϵ)
-    @test primal == [] || all(primal .< ϵ)
+    @test all(primal .< ϵ)
     @test stats.dual_feas < ϵ
     @test stats.status == :first_order
   end

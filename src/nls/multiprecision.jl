@@ -45,9 +45,9 @@ function multiprecision_nls(solver, ptype; precisions = (Float16, Float32, Float
     @test stats.objective isa T
     @test stats.dual_feas isa T
     @test stats.primal_feas isa T
-    primal, dual = kkt_checker(nls, stats.solution, feas_tol = ϵ, bound_tol = ϵ)
+    primal, dual = kkt_checker(nls, stats.solution)
     @test all(dual .< ϵ * ng0 + ϵ)
-    @test primal == [] || all(primal .< ϵ * ng0 + ϵ)
+    @test all(primal .< ϵ * ng0 + ϵ)
     @test stats.dual_feas < ϵ * ng0 + ϵ
   end
 end

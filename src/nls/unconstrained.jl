@@ -42,7 +42,7 @@ function unconstrained_nls(solver; problem_set = unconstrained_nls_set(), atol =
     end
     ng0 = rtol != 0 ? norm(grad(nls, nls.meta.x0)) : 0
     ϵ = atol + rtol * ng0
-    primal, dual = kkt_checker(nls, stats.solution, feas_tol = atol, bound_tol = atol)
+    primal, dual = kkt_checker(nls, stats.solution)
     @test all(dual .< ϵ)
     @test primal == [] || all(primal .< ϵ)
     @test stats.dual_feas < ϵ
