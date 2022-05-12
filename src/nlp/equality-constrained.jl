@@ -68,8 +68,8 @@ function equality_constrained_nlp(
     ng0 = rtol != 0 ? norm(grad(nlp, nlp.meta.x0)) : 0
     ϵ = atol + rtol * ng0
     primal, dual = kkt_checker(nlp, stats.solution)
-    @test all(dual .< ϵ)
-    @test all(primal .< ϵ)
+    @test all(abs.(dual) .< ϵ)
+    @test all(abs.(primal) .< ϵ)
     @test stats.dual_feas < ϵ
     @test stats.primal_feas < ϵ
     @test stats.status == :first_order

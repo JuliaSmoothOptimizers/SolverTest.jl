@@ -46,8 +46,8 @@ function multiprecision_nlp(solver, ptype; precisions = (Float16, Float32, Float
     @test stats.dual_feas isa T
     @test stats.primal_feas isa T
     primal, dual = kkt_checker(nlp, stats.solution)
-    @test all(dual .< ϵ * ng0 + ϵ)
-    @test all(primal .< ϵ * ng0 + ϵ)
+    @test all(abs.(dual) .< ϵ * ng0 + ϵ)
+    @test all(abs.(primal) .< ϵ * ng0 + ϵ)
     @test stats.dual_feas < ϵ * ng0 + ϵ
   end
 end

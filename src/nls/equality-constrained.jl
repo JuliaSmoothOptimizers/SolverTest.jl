@@ -105,8 +105,8 @@ function equality_constrained_nls(
     ng0 = rtol != 0 ? norm(grad(nls, nls.meta.x0)) : 0
     ϵ = atol + rtol * ng0
     primal, dual = kkt_checker(nls, stats.solution)
-    @test all(dual .< ϵ)
-    @test all(primal .< ϵ)
+    @test all(abs.(dual) .< ϵ)
+    @test all(abs.(primal) .< ϵ)
     @test stats.dual_feas < ϵ
     @test stats.primal_feas < ϵ
     @test stats.status == :first_order
