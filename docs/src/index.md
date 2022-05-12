@@ -19,5 +19,5 @@ multiprecision_nls
 ## Auxiliary funcions
 
 ```@docs
-SolverTest.eqn_solution_check
+SolverTest.kkt_checker
 ```
