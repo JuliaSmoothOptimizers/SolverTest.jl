@@ -12,6 +12,8 @@ min_{d} ∇f(sol)ᵀd +  ½∥d∥²
         lvar ≤ sol + d ≤ uvar
         lcon ≤ c(sol) + ∇c(sol)d ≤ ucon
 ```
+The solution of this problem is the gradient of the Lagrangian of the `nlp` at `sol` thanks to the ½ ‖d‖² term in the objective.
+
 Keyword arguments are passed to `RipQP`.
 """
 function kkt_checker(
@@ -23,12 +25,11 @@ function kkt_checker(
   g = grad(nlp, sol)
   Hrows, Hcols = collect(1:nvar), collect(1:nvar)
   Hvals = ones(T, nlp.meta.nvar)
+
+  feas_res = max.(nlp.meta.lvar - sol, sol - nlp.meta.uvar, 0)
   kkt_nlp = if nlp.meta.ncon > 0
     c = cons(nlp, sol)
-    feas_res = vcat(
-      max.(nlp.meta.lcon - c, c - nlp.meta.ucon, 0),
-      max.(nlp.meta.lvar - sol, sol - nlp.meta.uvar, 0)
-    )
+    feas_res = vcat(max.(nlp.meta.lcon - c, c - nlp.meta.ucon, 0), feas_res)
     Arows, Acols = jac_structure(nlp)
     Avals = jac_coord(nlp, sol)
     QuadraticModel(
@@ -46,7 +47,6 @@ function kkt_checker(
       x0 = fill!(S(undef, nlp.meta.nvar), zero(T)),
     )
   else
-    feas_res = max.(nlp.meta.lvar - sol, sol - nlp.meta.uvar, 0)
     QuadraticModel(
       g,
       Hrows,
