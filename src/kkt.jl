@@ -57,7 +57,7 @@ function kkt_checker(
       x0 = fill!(S(undef, nlp.meta.nvar), zero(T)),
     )
   end
-  stats = ripqp(kkt_nlp; display = false, kwargs...)
+  stats = ripqp(kkt_nlp; display = false, sp = K2LDLParams{T}(ρ0 = T(1.0e-2), δ0 = T(1.0e-2)), kwargs...)
   if !(stats.status ∈ (:acceptable, :first_order))
     @warn "Failure in the Lagrange multiplier computation, the status of ripqp is $(stats.status)."
   end
