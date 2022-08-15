@@ -24,7 +24,7 @@ function dummy(
   yzls(x) = begin
     A = m > 0 ? jac(nlp, x) : zeros(T, 0, n)
     @info("", eltype(A))
-    yz = [A' -Pℓ Pu] \ -grad(nlp, x)
+    yz = Matrix([A' -Pℓ Pu]) \ -grad(nlp, x)
     y, zℓ, zu = yz[1:m], Pℓ * yz[m .+ (1:nℓ)], Pu * yz[m .+ nℓ .+ (1:nu)]
     @info("inner", zℓ, zu)
     for i ∈ ℓidx
