@@ -86,14 +86,13 @@ function dummy(
     end
   end
 
-  return GenericExecutionStats(
-    status,
-    nlp,
-    solution = x,
-    objective = obj(nlp, x),
-    dual_feas = dual,
-    primal_feas = primal,
-    elapsed_time = Δt,
-    iter = iter,
-  )
+  stats = GenericExecutionStats(nlp)
+  set_status!(stats, status)
+  set_objective!(stats, obj(nlp, x))
+  set_residuals!(stats, primal, dual)
+  set_time!(stats, Δt)
+  set_solution!(stats, x)
+  set_iter!(stats, iter)
+
+  return stats
 end
