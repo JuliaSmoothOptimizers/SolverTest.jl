@@ -5,14 +5,15 @@ function unconstrained_nlp_set()
   D = Diagonal([0.1 + 0.9 * (i - 1) / (n - 1) for i = 1:n])
   A = spdiagm(0 => 2 * ones(n), -1 => -ones(n - 1), -1 => -ones(n - 1))
   return [
-    ADNLPModel(x -> (x[1] - 1)^2 + 4 * (x[2] - 1)^2, zeros(2), name = "(x₁ - 1)² + 4(x₂ - 1)²"),
-    ADNLPModel(x -> dot(x .- 1, D, x .- 1), zeros(n), name = "Diagonal quadratic"),
-    ADNLPModel(x -> dot(x .- 1, A, x .- 1), zeros(n), name = "Tridiagonal quadratic"),
-    ADNLPModel(x -> (x[1] - 1)^2 + 100 * (x[2] - x[1]^2)^2, [-1.2; 1.0], name = "Rosenbrock"),
+    ADNLPModel(x -> (x[1] - 1)^2 + 4 * (x[2] - 1)^2, zeros(2), name = "(x₁ - 1)² + 4(x₂ - 1)²", gradient_backend = ADNLPModels.GenericForwardDiffADGradient),
+    ADNLPModel(x -> dot(x .- 1, D, x .- 1), zeros(n), name = "Diagonal quadratic", gradient_backend = ADNLPModels.GenericForwardDiffADGradient),
+    ADNLPModel(x -> dot(x .- 1, A, x .- 1), zeros(n), name = "Tridiagonal quadratic", gradient_backend = ADNLPModels.GenericForwardDiffADGradient),
+    ADNLPModel(x -> (x[1] - 1)^2 + 100 * (x[2] - x[1]^2)^2, [-1.2; 1.0], name = "Rosenbrock", gradient_backend = ADNLPModels.GenericForwardDiffADGradient),
     ADNLPModel(
       x -> sum(100 * (x[i + 1] - x[i]^2)^2 + (x[i] - 1)^2 for i = 1:(n - 1)),
       collect(1:n) ./ (n + 1),
       name = "Extended Rosenbrock",
+      gradient_backend = ADNLPModels.GenericForwardDiffADGradient,
     ),
   ]
 end
