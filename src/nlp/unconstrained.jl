@@ -1,6 +1,6 @@
 export unconstrained_nlp
 
-function unconstrained_nlp_set()
+function unconstrained_nlp_set(;kwargs...)
   n = 30
   D = Diagonal([0.1 + 0.9 * (i - 1) / (n - 1) for i = 1:n])
   A = spdiagm(0 => 2 * ones(n), -1 => -ones(n - 1), -1 => -ones(n - 1))
