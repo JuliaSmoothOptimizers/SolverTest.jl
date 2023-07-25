@@ -1,6 +1,6 @@
 export equality_constrained_nlp
 
-function equality_constrained_nlp_set()
+function equality_constrained_nlp_set(;kwargs...)
   n = 30
   return [
     ADNLPModel(
@@ -9,7 +9,8 @@ function equality_constrained_nlp_set()
       x -> [4x[1] + 6x[2] - 10],
       zeros(1),
       zeros(1),
-      name = "Simple quadratic problem",
+      name = "Simple quadratic problem";
+      kwargs...,
     ),
     ADNLPModel(
       x -> (x[1] - 1)^2,
@@ -17,7 +18,8 @@ function equality_constrained_nlp_set()
       x -> [10 * (x[2] - x[1]^2)],
       zeros(1),
       zeros(1),
-      name = "HS6",
+      name = "HS6";
+      kwargs...,
     ),
     ADNLPModel(
       x -> -x[1] + 1,
@@ -28,7 +30,8 @@ function equality_constrained_nlp_set()
       ],
       zeros(2),
       zeros(2),
-      name = "scaled HS8",
+      name = "scaled HS8";
+      kwargs...,
     ),
     ADNLPModel(
       x -> dot(x, x) - n,
@@ -36,7 +39,8 @@ function equality_constrained_nlp_set()
       x -> [sum(x) - n],
       zeros(1),
       zeros(1),
-      name = "‖x‖² s.t. ∑x = n",
+      name = "‖x‖² s.t. ∑x = n";
+      kwargs...,
     ),
     ADNLPModel(
       x -> (x[1] - 1.0)^2 + 100 * (x[2] - x[1]^2)^2,
@@ -44,7 +48,8 @@ function equality_constrained_nlp_set()
       x -> [sum(x) - 2],
       [0.0],
       [0.0],
-      name = "Rosenbrock with ∑x = 2",
+      name = "Rosenbrock with ∑x = 2";
+      kwargs...,
     ),
   ]
 end

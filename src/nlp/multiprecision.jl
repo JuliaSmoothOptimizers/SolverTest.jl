@@ -12,7 +12,7 @@ The `problem_type` can be
 - :eqnbnd
 - :gen
 """
-function multiprecision_nlp(solver, ptype; precisions = (Float16, Float32, Float64, BigFloat))
+function multiprecision_nlp(solver, ptype; precisions = (Float16, Float32, Float64, BigFloat), kwargs...)
   f(x) = (x[1] - 1)^2 + 4 * (x[2] - x[1]^2)^2
   c(x) = [x[1]^2 + x[2]^2]
   c2(x) = [c(x); x[2] - x[1]^2 / 10]
@@ -20,17 +20,17 @@ function multiprecision_nlp(solver, ptype; precisions = (Float16, Float32, Float
     x0 = T[-1.2; 1.0]
     ℓ, u = zeros(T, 2), 2 * ones(T, 2)
     nlp = if ptype == :unc
-      ADNLPModel(f, x0)
+      ADNLPModel(f, x0; kwargs...)
     elseif ptype == :bnd
-      ADNLPModel(f, x0, ℓ, u)
+      ADNLPModel(f, x0, ℓ, u; kwargs...)
     elseif ptype == :equ
-      ADNLPModel(f, x0, c, T[2.0], T[2.0])
+      ADNLPModel(f, x0, c, T[2.0], T[2.0]; kwargs...)
     elseif ptype == :ineq
-      ADNLPModel(f, x0, c, T[0.0], T[2.0])
+      ADNLPModel(f, x0, c, T[0.0], T[2.0]; kwargs...)
     elseif ptype == :eqnbnd
-      ADNLPModel(f, x0, ℓ, u, c, T[2.0], T[2.0])
+      ADNLPModel(f, x0, ℓ, u, c, T[2.0], T[2.0]; kwargs...)
     elseif ptype == :gen
-      ADNLPModel(f, x0, ℓ, u, c2, T[2.0; 0.0], T[2.0; Inf])
+      ADNLPModel(f, x0, ℓ, u, c2, T[2.0; 0.0], T[2.0; Inf]; kwargs...)
     else
       error("Unexpected ptype $ptype")
     end
