@@ -12,7 +12,7 @@ The `problem_type` can be
 - :eqnbnd
 - :gen
 """
-function multiprecision_nls(solver, ptype; precisions = (Float16, Float32, Float64, BigFloat))
+function multiprecision_nls(solver, ptype; precisions = (Float16, Float32, Float64, BigFloat), kwargs...)
   F(x) = [x[1] - 1; 2 * (x[2] - x[1]^2)]
   c(x) = [x[1]^2 + x[2]^2]
   c2(x) = [c(x); x[2] - x[1]^2 / 10]
@@ -20,17 +20,17 @@ function multiprecision_nls(solver, ptype; precisions = (Float16, Float32, Float
     x0 = T[-1.2; 1.0]
     ℓ, u = zeros(T, 2), 2 * ones(T, 2)
     nls = if ptype == :unc
-      ADNLSModel(F, x0, 2)
+      ADNLSModel(F, x0, 2; kwargs...)
     elseif ptype == :bnd
-      ADNLSModel(F, x0, 2, ℓ, u)
+      ADNLSModel(F, x0, 2, ℓ, u; kwargs...)
     elseif ptype == :equ
-      ADNLSModel(F, x0, 2, c, T[2.0], T[2.0])
+      ADNLSModel(F, x0, 2, c, T[2.0], T[2.0]; kwargs...)
     elseif ptype == :ineq
-      ADNLSModel(F, x0, 2, c, T[0.0], T[2.0])
+      ADNLSModel(F, x0, 2, c, T[0.0], T[2.0]; kwargs...)
     elseif ptype == :eqnbnd
-      ADNLSModel(F, x0, 2, ℓ, u, c, T[2.0], T[2.0])
+      ADNLSModel(F, x0, 2, ℓ, u, c, T[2.0], T[2.0]; kwargs...)
     elseif ptype == :gen
-      ADNLSModel(F, x0, 2, ℓ, u, c2, T[2.0; 0.0], T[2.0; Inf])
+      ADNLSModel(F, x0, 2, ℓ, u, c2, T[2.0; 0.0], T[2.0; Inf]; kwargs...)
     else
       error("Unexpected ptype $ptype")
     end
