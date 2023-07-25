@@ -1,6 +1,6 @@
 export equality_constrained_nls
 
-function equality_constrained_nls_set()
+function equality_constrained_nls_set(;kwargs...)
   n = 10
   return [
     ADNLSModel(
@@ -10,7 +10,8 @@ function equality_constrained_nls_set()
       x -> [10 * (x[2] - x[1]^2)],
       zeros(1),
       zeros(1),
-      name = "HS6",
+      name = "HS6";
+      kwargs...,
     ),
     ADNLSModel(
       x -> [x[1] - 1; 10 * (x[2] - x[1]^2)],
@@ -19,7 +20,8 @@ function equality_constrained_nls_set()
       x -> [(x[1] - 2)^2 + (x[2] - 2)^2 - 2],
       zeros(1),
       zeros(1),
-      name = "Rosenbrock with (x₁-2)²+(x₂-2)²=2",
+      name = "Rosenbrock with (x₁-2)²+(x₂-2)²=2";
+      kwargs...,
     ),
     ADNLSModel(
       x -> [x[1] - 1; 10 * (x[2] - x[1]^2)],
@@ -28,7 +30,8 @@ function equality_constrained_nls_set()
       x -> [sum(x) - 2],
       zeros(1),
       zeros(1),
-      name = "Rosenbrock with ∑x = 2",
+      name = "Rosenbrock with ∑x = 2";
+      kwargs...,
     ),
     ADNLSModel(
       x -> [x[1] - 1; x[2] - 1],
@@ -37,7 +40,8 @@ function equality_constrained_nls_set()
       x -> [sum(x) - 2],
       zeros(1),
       zeros(1),
-      name = "linear residual and linear constraints",
+      name = "linear residual and linear constraints";
+      kwargs...,
     ),
     ADNLSModel(
       x -> [x[1] - 1; x[2] - 1],
@@ -46,7 +50,8 @@ function equality_constrained_nls_set()
       x -> [sum(x .^ 2) - 2; x[2] - x[1]^2],
       zeros(2),
       zeros(2),
-      name = "linear residual and quad constraints",
+      name = "linear residual and quad constraints";
+      kwargs...,
     ),
     ADNLSModel(
       x -> [x[1] - x[i] for i = 2:n],
@@ -55,7 +60,8 @@ function equality_constrained_nls_set()
       x -> [sum(x) - n],
       zeros(1),
       zeros(1),
-      name = "F_under and linear constraints",
+      name = "F_under and linear constraints";
+      kwargs...,
     ),
     ADNLSModel(
       x -> [x[1] - x[i] for i = 2:n],
@@ -64,7 +70,8 @@ function equality_constrained_nls_set()
       x -> [sum(x .^ 2) - n; prod(x) - 1],
       zeros(2),
       zeros(2),
-      name = "F_under and quad constraints",
+      name = "F_under and quad constraints";
+      kwargs...,
     ),
     ADNLSModel(
       x -> [[10 * (x[i + 1] - x[i]^2) for i = 1:(n - 1)]; [x[i] - 1 for i = 1:(n - 1)]],
@@ -73,7 +80,8 @@ function equality_constrained_nls_set()
       x -> [sum(x) - n],
       zeros(1),
       zeros(1),
-      name = "F_larger and linear constraints",
+      name = "F_larger and linear constraints";
+      kwargs...,
     ),
     ADNLSModel(
       x -> [[10 * (x[i + 1] - x[i]^2) for i = 1:(n - 1)]; [x[i] - 1 for i = 1:(n - 1)]],
@@ -82,7 +90,8 @@ function equality_constrained_nls_set()
       x -> [sum(x .^ 2) - n; prod(x) - 1],
       zeros(2),
       zeros(2),
-      name = "F_larger and quad constraints",
+      name = "F_larger and quad constraints";
+      kwargs...,
     ),
   ]
 end
