@@ -8,26 +8,58 @@ It is assumed that:
 
 ## Unconstrained Optimization
 
-The function [`unconstrained_nlp_set`](@doc) returns a list of optimization problems in the [`ADNLPModel`](https://github.com/JuliaSmoothOptimizers/ADNLPModels.jl) format.
+The function [`unconstrained_nlp_set`](@ref)  returns a list of optimization problems in the [`ADNLPModel`](https://github.com/JuliaSmoothOptimizers/ADNLPModels.jl) format.
 
-Secondly, the function [`unconstrained_nlp`](@doc) will test the behavior of the JSO-compliant function `solver` on the test set.
-More precisely, it will test that primal and dual feasibility at the solution (`stats.solution`) computed with [`kkt_checker`](@doc) and that `stats.dual_feas` are relatively small, i.e. ‖∇f(xᵏ)‖ ≤ atol + rtol * ‖∇f(x⁰)‖ where atol = rtol = 1e-6.
+Secondly, the function [`unconstrained_nlp`](@ref) will test the behavior of the JSO-compliant function `solver` on the test set.
+More precisely, it will test that primal and dual feasibility at the solution (`stats.solution`) computed with [`kkt_checker`](@ref) and that `stats.dual_feas` are relatively small, i.e. ‖∇f(xᵏ)‖ ≤ atol + rtol * ‖∇f(x⁰)‖ where atol = rtol = 1e-6.
 It will also be tested that the final status `stats.status` is `:first_order`.
 The problems are sufficiently simple that we expect the solver to solve them successfully.
-
-Similarly, [`unconstrained_nls_set`](@doc) and [`unconstrained_nls`](@doc) are preparing the same tests for nonlinear least squares.
 
 ```@example
 using SolverTest
 using Test
-using JSOSolvers # export solver lbfgs
+using JSOSolvers # export solver trunk
 @testset "Unconstrained solvers" begin
-  unconstrained_nlp(lbfgs)
-  multiprecision_nlp(lbfgs, :unc)
+  unconstrained_nlp(trunk)
+  multiprecision_nlp(trunk, :unc)
+end
+```
+
+Similarly, [`unconstrained_nls_set`](@ref) and [`unconstrained_nls`](@ref) are preparing the same tests for nonlinear least squares.
+
+```@example
+using SolverTest
+using Test
+using JSOSolvers # export solver trunk
+@testset "Unconstrained solvers" begin
+  unconstrained_nls(trunk)
+  multiprecision_nls(trunk, :unc)
 end
 ```
 
 ## Bound-constrained Optimization
+
+```@example
+using SolverTest
+using Test
+using JSOSolvers # export solver trunk
+@testset "Bound-constrained solvers" begin
+  bound_constrained_nlp(tron)
+  multiprecision_nlp(tron, :unc)
+  multiprecision_nlp(tron, :bnd)
+end
+```
+
+```@example
+using SolverTest
+using Test
+using JSOSolvers # export solver trunk
+@testset "Bound-constrained solvers" begin
+  bound_constrained_nls(tron)
+  multiprecision_nls(tron, :unc)
+  multiprecision_nls(tron, :bnd)
+end
+```
 
 ## Equality-constrained Optimization
 
