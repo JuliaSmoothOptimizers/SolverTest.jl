@@ -6,6 +6,8 @@ It is assumed that:
 2. returns a [`GenericExecutionStats`](https://github.com/JuliaSmoothOptimizers/SolverCore.jl) as output;
 3. The solver function should accepts `atol` and `rtol` as keyword arguments.
 
+As shown in the examples below, the package also provide multiprecision tests for compatible solvers.
+
 ## Unconstrained Optimization
 
 The function `unconstrained_nlp_set`  returns a list of optimization problems in the [`ADNLPModel`](https://github.com/JuliaSmoothOptimizers/ADNLPModels.jl) format.
@@ -72,6 +74,8 @@ end
 
 ## Equality-constrained Optimization
 
+This expands straightforwardly to equality-constrained problems.
+
 ```@example
 using SolverTest
 using Test
@@ -80,14 +84,13 @@ using DCISolver # export solver dci
 
   @testset "$foo" for foo in [
     unconstrained_nlp,
-    bound_constrained_nlp,
     equality_constrained_nlp,
   ]
     foo(dci)
   end
 
   @testset "Multiprecision tests" begin
-    for ptype in [:unc, :bnd, :equ]
+    for ptype in [:unc, :equ]
       multiprecision_nlp(
         dci,
         ptype,
@@ -105,7 +108,3 @@ This is still work in progress, see [Issue 8](https://github.com/JuliaSmoothOpti
 ## Inequality-constrained optimization
 
 This is still work in progress, see [Issue 8](https://github.com/JuliaSmoothOptimizers/SolverTest.jl/issues/8).
-
-## Multi-precision tests
-
-TODO
