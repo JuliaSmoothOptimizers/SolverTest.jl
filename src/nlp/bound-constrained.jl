@@ -2,7 +2,7 @@ export bound_constrained_nlp
 
 function bound_constrained_nlp_set(;kwargs...)
   n = 30
-  D = Diagonal([Rational{Int}(1//10 + 9//10 * (i - 1) / (n - 1)) for i = 1:n])
+  D = Diagonal([1//10 + 9//10 * (i - 1) // (n - 1) for i = 1:n])
   A = spdiagm(0 => 2 * ones(Rational{Int}, n), -1 => -ones(Rational{Int}, n - 1), 1 => -ones(Rational{Int}, n - 1))
   return [
     ADNLPModel(
