@@ -2,7 +2,7 @@ export unconstrained_nlp
 
 function unconstrained_nlp_set(;kwargs...)
   n = 30
-  D = Diagonal([Rational{Int}(1//10 + 9//10 * (i - 1) / (n - 1)) for i = 1:n])
+  D = Diagonal([1//10 + 9//10 * (i - 1) // (n - 1) for i = 1:n])
   A = spdiagm(0 => 2 * ones(Rational{Int}, n), -1 => -ones(Rational{Int}, n - 1), 1 => -ones(Rational{Int}, n - 1))
   return [
     ADNLPModel(x -> (x[1] - 1)^2 + 4 * (x[2] - 1)^2, zeros(2), name = "(x₁ - 1)² + 4(x₂ - 1)²"; kwargs...),
