@@ -10,6 +10,7 @@ include("kkt.jl")
 include("nlp/unconstrained.jl")
 include("nlp/bound-constrained.jl")
 include("nlp/equality-constrained.jl")
+include("nlp/inequality-constrained.jl")
 include("nlp/multiprecision.jl")
 
 include("nls/unconstrained.jl")
