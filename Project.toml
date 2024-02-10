@@ -1,6 +1,5 @@
 name = "SolverTest"
 uuid = "4343dc35-3317-4c6e-8877-f0cc8502c90e"
-authors = ["Abel Soares Siqueira <abel.s.siqueira@gmail.com>"]
 version = "0.3.11"
 
 [deps]
