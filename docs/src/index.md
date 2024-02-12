@@ -4,7 +4,7 @@ SolverTest package provides testing facilities for developers of JSO-compliant s
 
 ## How to cite
 
-Please cite this repository if you use SolverTest.jl in your work: see [`CITATION.bib`](https://github.com/JuliaSmoothOptimizers/SolverTest.jl/blob/main/CITATION.bib).
+Please cite this repository if you use SolverTest.jl in your work: see [`CITATION.cff`](https://github.com/JuliaSmoothOptimizers/SolverTest.jl/blob/main/CITATION.cff).
 
 ## Installation
 

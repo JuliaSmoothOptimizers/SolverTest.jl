@@ -1,4 +1,4 @@
-Copyright (c) 2021: Abel Soares Siqueira and Dominique Orban
+Copyright (c) 2021-present: Tangi Migot and Abel Soares Siqueira and Dominique Orban
 
 SolverTest.jl is licensed under the [MPL version 2.0](https://www.mozilla.org/MPL/2.0/).
 
