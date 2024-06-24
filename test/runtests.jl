@@ -17,11 +17,13 @@ include("dummy-solver.jl")
     foo(dummy)
   end
 
-  @testset "Multiprecision tests" begin
+  @testset "Multiprecision tests NLP" begin
     for ptype in [:unc, :bnd, :equ, :ineq, :eqnbnd, :gen]
       multiprecision_nlp(dummy, ptype)
     end
+  end
 
+  @testset "Multiprecision tests NLS" begin
     for ptype in [:unc, :bnd, :equ, :ineq, :eqnbnd, :gen]
       multiprecision_nls(dummy, ptype)
     end
