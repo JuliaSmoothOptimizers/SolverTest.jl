@@ -1,13 +1,12 @@
 function dummy(
-  nlp::AbstractNLPModel;
+  nlp::AbstractNLPModel{T, S};
   x = copy(nlp.meta.x0),
-  atol = 1e-6,
-  rtol = 1e-6,
+  atol = sqrt(eps(T)),
+  rtol = sqrt(eps(T)),
   max_time = 30.0,
   max_eval = 10000,
   max_iter = 1000,
-)
-  T = eltype(x)
+) where {T, S}
   status = :unknown
   ℓ, u = T.(nlp.meta.lvar), T.(nlp.meta.uvar)
   x .= clamp.(x, ℓ, u)
@@ -22,6 +21,9 @@ function dummy(
   @info("", x)
 
   yzls(x) = begin
+    if m == 0 && !has_bounds(nlp)
+      return zeros(T, 0), zeros(T, n), zeros(T, n)
+    end
     A = m > 0 ? jac(nlp, x) : zeros(T, 0, n)
     @info("", eltype(A))
     yz = Matrix([A' -Pℓ Pu]) \ -grad(nlp, x)
