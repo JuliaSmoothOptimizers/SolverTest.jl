@@ -6,8 +6,8 @@ function unconstrained_nlp_set(;kwargs...)
   A = spdiagm(0 => 2 * ones(Rational{Int}, n), -1 => -ones(Rational{Int}, n - 1), 1 => -ones(Rational{Int}, n - 1))
   return [
     ADNLPModel(x -> (x[1] - 1)^2 + 4 * (x[2] - 1)^2, zeros(2), name = "(x₁ - 1)² + 4(x₂ - 1)²"; kwargs...),
-    ADNLPModel(x -> dot(x .- 1, D, x .- 1), zeros(n), name = "Diagonal quadratic"; kwargs...),
-    ADNLPModel(x -> dot(x .- 1, A, x .- 1), zeros(n), name = "Tridiagonal quadratic"; kwargs...),
+    ADNLPModel(x -> (x .- 1)' * D * (x .- 1), zeros(n), name = "Diagonal quadratic"; kwargs...),
+    ADNLPModel(x -> (x .- 1)' * A * (x .- 1), zeros(n), name = "Tridiagonal quadratic"; kwargs...),
     ADNLPModel(x -> (x[1] - 1)^2 + 100 * (x[2] - x[1]^2)^2, [-1.2; 1.0], name = "Rosenbrock"; kwargs...),
     ADNLPModel(
       x -> sum(100 * (x[i + 1] - x[i]^2)^2 + (x[i] - 1)^2 for i = 1:(n - 1)),
