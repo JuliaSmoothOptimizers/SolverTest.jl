@@ -16,11 +16,7 @@ The solution of this problem is the gradient of the Lagrangian of the `nlp` at `
 
 Keyword arguments are passed to `RipQP`.
 """
-function kkt_checker(
-  nlp::AbstractNLPModel{T, S},
-  sol;
-  kwargs...,
-) where {T, S}
+function kkt_checker(nlp::AbstractNLPModel{T, S}, sol; kwargs...) where {T, S}
   nvar = nlp.meta.nvar
   g = grad(nlp, sol)
   Hrows, Hcols = collect(1:nvar), collect(1:nvar)
@@ -57,7 +53,8 @@ function kkt_checker(
       x0 = fill!(S(undef, nlp.meta.nvar), zero(T)),
     )
   end
-  stats = ripqp(kkt_nlp; display = false, sp = K2LDLParams{T}(ρ0 = T(1.0e-2), δ0 = T(1.0e-2)), kwargs...)
+  stats =
+    ripqp(kkt_nlp; display = false, sp = K2LDLParams{T}(ρ0 = T(1.0e-2), δ0 = T(1.0e-2)), kwargs...)
   if !(stats.status ∈ (:acceptable, :first_order))
     @warn "Failure in the Lagrange multiplier computation, the status of ripqp is $(stats.status)."
   end

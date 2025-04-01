@@ -12,7 +12,12 @@ The `problem_type` can be
 - :eqnbnd
 - :gen
 """
-function multiprecision_nls(solver, ptype; precisions = (Float16, Float32, Float64, BigFloat), kwargs...)
+function multiprecision_nls(
+  solver,
+  ptype;
+  precisions = (Float16, Float32, Float64, BigFloat),
+  kwargs...,
+)
   F(x) = [x[1] - 1; 2 * (x[2] - x[1]^2)]
   c(x) = [x[1]^2 + x[2]^2]
   c2(x) = [c(x); x[2] - x[1]^2 / 10]

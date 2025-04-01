@@ -1,9 +1,13 @@
 export bound_constrained_nlp
 
-function bound_constrained_nlp_set(;kwargs...)
+function bound_constrained_nlp_set(; kwargs...)
   n = 30
-  D = Diagonal([1//10 + 9//10 * (i - 1) // (n - 1) for i = 1:n])
-  A = spdiagm(0 => 2 * ones(Rational{Int}, n), -1 => -ones(Rational{Int}, n - 1), 1 => -ones(Rational{Int}, n - 1))
+  D = Diagonal([1 // 10 + 9 // 10 * (i - 1) // (n - 1) for i = 1:n])
+  A = spdiagm(
+    0 => 2 * ones(Rational{Int}, n),
+    -1 => -ones(Rational{Int}, n - 1),
+    1 => -ones(Rational{Int}, n - 1),
+  )
   return [
     ADNLPModel(
       x -> (x[1] - 1)^2 + 4 * (x[2] - 1)^2,
@@ -37,7 +41,14 @@ function bound_constrained_nlp_set(;kwargs...)
       name = "One fixed variable";
       kwargs...,
     ),
-    ADNLPModel(x -> sum(x .^ 2) - n, zeros(n), ones(n), ones(n), name = "All variables fixed"; kwargs...),
+    ADNLPModel(
+      x -> sum(x .^ 2) - n,
+      zeros(n),
+      ones(n),
+      ones(n),
+      name = "All variables fixed";
+      kwargs...,
+    ),
     ADNLPModel(
       x -> sum(100 * (x[i + 1] - x[i]^2)^2 + (x[i] - 1)^2 for i = 1:(n - 1)),
       collect(1:n) ./ (n + 1),
