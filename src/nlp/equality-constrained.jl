@@ -1,6 +1,6 @@
 export equality_constrained_nlp
 
-function equality_constrained_nlp_set(;kwargs...)
+function equality_constrained_nlp_set(; kwargs...)
   n = 30
   return [
     ADNLPModel(

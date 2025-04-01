@@ -1,9 +1,13 @@
 export bound_constrained_nls
 
-function bound_constrained_nls_set(;kwargs...)
+function bound_constrained_nls_set(; kwargs...)
   n = 30
-  D = Diagonal([1//10 + 9//10 * (i - 1) // (n - 1) for i = 1:n])
-  A = spdiagm(0 => 2 * ones(Rational{Int}, n), -1 => -ones(Rational{Int}, n - 1), 1 => -ones(Rational{Int}, n - 1))
+  D = Diagonal([1 // 10 + 9 // 10 * (i - 1) // (n - 1) for i = 1:n])
+  A = spdiagm(
+    0 => 2 * ones(Rational{Int}, n),
+    -1 => -ones(Rational{Int}, n - 1),
+    1 => -ones(Rational{Int}, n - 1),
+  )
   return [
     ADNLSModel(
       x -> [x[1] - 1; 2x[2] - 2],
