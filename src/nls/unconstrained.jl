@@ -1,11 +1,15 @@
 export unconstrained_nls
 
-function unconstrained_nls_set(;kwargs...)
+function unconstrained_nls_set(; kwargs...)
   n = 30
-  D = Diagonal([1//10 + 9//10 * (i - 1) // (n - 1) for i = 1:n])
-  A = spdiagm(0 => 2 * ones(Rational{Int}, n), -1 => -ones(Rational{Int}, n - 1), 1 => -ones(Rational{Int}, n - 1))
+  D = Diagonal([1 // 10 + 9 // 10 * (i - 1) // (n - 1) for i = 1:n])
+  A = spdiagm(
+    0 => 2 * ones(Rational{Int}, n),
+    -1 => -ones(Rational{Int}, n - 1),
+    1 => -ones(Rational{Int}, n - 1),
+  )
   return [
-    ADNLSModel(x -> [x[1] - 1; 2x[2] - 2], zeros(2), 2, name = "(x₁ - 1)² + 4(x₂ - 1)²";kwargs...),
+    ADNLSModel(x -> [x[1] - 1; 2x[2] - 2], zeros(2), 2, name = "(x₁ - 1)² + 4(x₂ - 1)²"; kwargs...),
     ADNLSModel(x -> sqrt.(D) * (x .- 1), zeros(n), n, name = "Diagonal quadratic"; kwargs...),
     ADNLSModel(
       x -> [x[1]^2 + x[2]^2 - 1; x[1] + x[2] - 4],
@@ -14,7 +18,13 @@ function unconstrained_nls_set(;kwargs...)
       name = "Non-zero residual";
       kwargs...,
     ),
-    ADNLSModel(x -> [x[1] - 1; 10 * (x[2] - x[1]^2)], [-1.2; 1.0], 2, name = "Rosenbrock"; kwargs...),
+    ADNLSModel(
+      x -> [x[1] - 1; 10 * (x[2] - x[1]^2)],
+      [-1.2; 1.0],
+      2,
+      name = "Rosenbrock";
+      kwargs...,
+    ),
     ADNLSModel(
       x -> [x[1] - 1; 10 * (x[2] - x[1]^2); x[1] * x[2] - 1],
       [-1.2; 1.0],

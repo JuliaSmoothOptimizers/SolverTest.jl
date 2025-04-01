@@ -12,7 +12,12 @@ The `problem_type` can be
 - :eqnbnd
 - :gen
 """
-function multiprecision_nlp(solver, ptype; precisions = (Float16, Float32, Float64, BigFloat), kwargs...)
+function multiprecision_nlp(
+  solver,
+  ptype;
+  precisions = (Float16, Float32, Float64, BigFloat),
+  kwargs...,
+)
   f(x) = (x[1] - 1)^2 + 4 * (x[2] - x[1]^2)^2
   c(x) = [x[1]^2 + x[2]^2]
   c2(x) = [c(x); x[2] - x[1]^2 / 10]

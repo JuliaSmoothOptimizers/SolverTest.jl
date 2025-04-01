@@ -10,11 +10,7 @@ makedocs(
     assets = ["assets/style.css"],
   ),
   sitename = "SolverTest.jl",
-  pages = [
-    "Home" => "index.md",
-    "Tutorial" => "tutorial.md",
-    "References" => "reference.md",
-  ],
+  pages = ["Home" => "index.md", "Tutorial" => "tutorial.md", "References" => "reference.md"],
 )
 
 deploydocs(

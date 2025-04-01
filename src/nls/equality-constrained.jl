@@ -1,6 +1,6 @@
 export equality_constrained_nls
 
-function equality_constrained_nls_set(;kwargs...)
+function equality_constrained_nls_set(; kwargs...)
   n = 10
   return [
     ADNLSModel(
