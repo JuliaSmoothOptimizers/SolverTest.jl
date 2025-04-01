@@ -1,3 +1,5 @@
+using SolverCore
+
 function dummy(
   nlp::AbstractNLPModel{T, S};
   x = copy(nlp.meta.x0),

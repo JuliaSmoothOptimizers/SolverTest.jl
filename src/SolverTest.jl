@@ -7,6 +7,8 @@ using ADNLPModels, NLPModels
 
 include("kkt.jl")
 
+include("dummy-solver.jl")
+
 include("nlp/unconstrained.jl")
 include("nlp/bound-constrained.jl")
 include("nlp/equality-constrained.jl")

@@ -3,8 +3,6 @@ using LinearAlgebra, Test
 # JSO
 using NLPModels, SolverCore, SolverTest
 
-include("dummy-solver.jl")
-
 @testset "Testing dummy-solver" begin
   @testset "$foo" for foo in [
     unconstrained_nlp,
@@ -14,18 +12,18 @@ include("dummy-solver.jl")
     bound_constrained_nls,
     equality_constrained_nls,
   ]
-    foo(dummy)
+    foo(SolverTest.dummy)
   end
 
   @testset "Multiprecision tests NLP" begin
     for ptype in [:unc, :bnd, :equ, :ineq, :eqnbnd, :gen]
-      multiprecision_nlp(dummy, ptype)
+      multiprecision_nlp(SolverTest.dummy, ptype)
     end
   end
 
   @testset "Multiprecision tests NLS" begin
     for ptype in [:unc, :bnd, :equ, :ineq, :eqnbnd, :gen]
-      multiprecision_nls(dummy, ptype)
+      multiprecision_nls(SolverTest.dummy, ptype)
     end
   end
 end
