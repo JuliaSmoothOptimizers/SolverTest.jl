@@ -1,6 +1,6 @@
 name = "SolverTest"
 uuid = "4343dc35-3317-4c6e-8877-f0cc8502c90e"
-version = "0.3.15"
+version = "0.3.16"
 
 [deps]
 ADNLPModels = "54578032-b7ea-4c30-94aa-7cbd1cce6c9a"
