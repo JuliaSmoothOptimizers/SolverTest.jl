@@ -82,6 +82,7 @@ function bound_constrained_nlp(
     @test all(abs.(dual) .< ϵ)
     @test all(abs.(primal) .< ϵ)
     @test stats.dual_feas < ϵ
+    @test stats.primal_feas < ϵ
     @test stats.status == :first_order
   end
 end
