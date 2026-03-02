@@ -13,6 +13,7 @@ using NLPModels, SolverCore, SolverTest
     equality_constrained_nls,
   ]
     foo(SolverTest.dummy)
+    foo(SolverTest.dummy, atol = 0.01)
   end
 
   @testset "Multiprecision tests NLP" begin

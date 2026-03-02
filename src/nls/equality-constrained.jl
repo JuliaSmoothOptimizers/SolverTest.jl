@@ -96,20 +96,22 @@ function equality_constrained_nls_set(; kwargs...)
   ]
 end
 """
-    equality_constrained_nls(solver; problem_set = equality_constrained_nls_set(), atol = 1e-6, rtol = 1e-6)
+    equality_constrained_nls(solver; problem_set = equality_constrained_nls_set(), atol = 1e-6, rtol = 1e-6, kwargs...)
 
 Test the `solver` on equality-constrained problems.
 If `rtol` is non-zero, the relative error uses the gradient at the initial guess.
+Additionnal keyword arguments are passed to the solver.
 """
 function equality_constrained_nls(
   solver;
   problem_set = equality_constrained_nls_set(),
   atol = 1e-6,
   rtol = 1e-6,
+  kwargs...,
 )
   @testset "Problem $(nls.meta.name)" for nls in problem_set
     stats = with_logger(NullLogger()) do
-      solver(nls)
+      solver(nls; kwargs...)
     end
     ng0 = rtol != 0 ? norm(grad(nls, nls.meta.x0)) : 0
     ϵ = atol + rtol * ng0
