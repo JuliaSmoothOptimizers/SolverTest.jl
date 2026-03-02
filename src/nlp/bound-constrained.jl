@@ -76,7 +76,11 @@ function bound_constrained_nlp(
 )
   @testset "Problem $(nlp.meta.name)" for nlp in problem_set
     stats = with_logger(NullLogger()) do
-      solver(nlp; kwargs...)
+      solver(nlp;
+        atol = atol,
+        rtol = rtol, 
+        kwargs...
+      )
     end
     ng0 = rtol != 0 ? norm(grad(nlp, nlp.meta.x0)) : 0
     ϵ = atol + rtol * ng0

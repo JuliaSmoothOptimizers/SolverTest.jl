@@ -52,7 +52,11 @@ Additionnal keyword arguments are passed to the solver.
 function unconstrained_nls(solver; problem_set = unconstrained_nls_set(), atol = 1e-6, rtol = 1e-6, kwargs...)
   @testset "Problem $(nls.meta.name)" for nls in problem_set
     stats = with_logger(NullLogger()) do
-      solver(nls; kwargs...)
+      solver(nls;
+        atol = atol,
+        rtol = rtol, 
+        kwargs...
+      )
     end
     ng0 = rtol != 0 ? norm(grad(nls, nls.meta.x0)) : 0
     ϵ = atol + rtol * ng0
