@@ -59,7 +59,7 @@ end
 
 Test the `solver` on equality-constrained problems.
 If `rtol` is non-zero, the relative error uses the gradient at the initial guess.
-Additionnal keyword arguments are passed to the solver.
+Additional keyword arguments are passed to the solver.
 """
 function equality_constrained_nlp(
   solver;

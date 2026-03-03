@@ -72,7 +72,7 @@ end
 
 Test the `solver` on bound-constrained nonlinear least-squares problems.
 If `rtol` is non-zero, the relative error uses the gradient at the initial guess.
-Additionnal keyword arguments are passed to the solver.
+Additional keyword arguments are passed to the solver.
 """
 function bound_constrained_nls(
   solver;

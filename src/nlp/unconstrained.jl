@@ -37,7 +37,7 @@ end
 
 Test the `solver` on unconstrained problems.
 If `rtol` is non-zero, the relative error uses the gradient at the initial guess.
-Additionnal keyword arguments are passed to the solver.
+Additional keyword arguments are passed to the solver.
 """
 function unconstrained_nlp(solver; problem_set = unconstrained_nlp_set(), atol = 1e-6, rtol = 1e-6, kwargs...)
   @testset "Problem $(nlp.meta.name)" for nlp in problem_set
