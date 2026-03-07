@@ -6,6 +6,6 @@ SolverTest = "4343dc35-3317-4c6e-8877-f0cc8502c90e"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
-Documenter = "0.26"
-JSOSolvers = "0.12"
-DCISolver = "0.4"
+Documenter = "1"
+JSOSolvers = "0.14"
+DCISolver = "0.5"
